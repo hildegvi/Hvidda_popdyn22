@@ -181,7 +181,7 @@ MCMCplot(object = HV_M2C,
          labels=c("2005",
                   "2006","2007","2008","2009","2010","2011",
                   "2012","2013","2014","2015","2016","2017",
-                  "2018","2019","2020","2021"),xlab="Parameter estimate phi1")
+                  "2018","2019","2020","2021"),xlab="Summer survival of calves (phi1)")
 text(0.54,3.8,"2019",col=blue)
 
 dev.off()
@@ -199,7 +199,7 @@ MCMCplot(object = HV_M2C,
          labels=c(
            "2006","2007","2008","2009","2010","2011",
            "2012","2013","2014","2015","2016","2017",
-           "2018","2019","2020","2021"),xlab=expression(paste("Parameter estimate ",lambda)))
+           "2018","2019","2020","2021"),xlab=expression(paste("Population growth rate (",lambda,")")))
 text(1.09,3.8,"2019",col=blue)
 dev.off()
 
