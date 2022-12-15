@@ -50,8 +50,8 @@ HV20subset_yearling<-48 + 13 + 7
 HV20subset_adm<-89 + 28 + 6
 
 sum20subset<-HV20subset_adf+HV20subset_calf+HV20subset_yearling+HV20subset_adm
-sum20S<-sum(d[d$year==2020,c("C0", "Cf","Cm","Btot")])
-#sum20subset/sum20S #14%
+sum20S<-sum(d[d$year==2020,c("C0", "Cf","Cm")])
+#sum20subset/sum20S #16%
 
 
 bugs.data.HV4s <- list(SU = c(d[1:T_max,"SU"]),
@@ -122,10 +122,11 @@ inits <- function() { list( phi3 = runif(1, 0.9, 0.99),
 #######Run the models #########################################################
 source("M1&2_variants_Hvidda_fall2021subset2020.R")
 
-#Baseline model, with subset 2020X, not including the summer minimum counts 
+#Baseline model, not including the summer minimum counts 
+#Alternative, if also including demographic counts for subset 2020: use data=bugs.data.HV4s
 HV_M1C <- jags(data=bugs.data.HVs, inits=inits, 
                parameters.to.save=c(
-                 "phi3", "phi1", "f", "p1", "p2", "ps","Ntot","Xtot",
+                 "phi3", "phi1", "f", "p1", "p2", "Ntot","Xtot",
                  "Sjuv", "fert", "sd_f", "sd_phi1","Sjuv18","lambda"), 
                model.file="jagsMod_M1C_HV_fall2021p1.bug",n.chain=nchains, 
                n.iter=niter, n.burnin=nburn, parallel=TRUE)
@@ -137,10 +138,10 @@ write.csv2(sumdat,file=paste0(pathR,"HvdatM1C_05_r1.csv"))
 
 
 #Baseline model including summer counts of 2019 and 2021
-
+#Alternative, if also including demographic counts for subset 2020: use data=bugs.data.HV4s
 HV_M2C <- jags(data=bugs.data.HVs, inits=inits, 
                parameters.to.save=c( 
-                 "phi3", "phi1", "f", "p1", "p2","ps","Ntot","Xtot", 
+                 "phi3", "phi1", "f", "p1", "p2","Ntot","Xtot", 
                  "fert", "sd_f","Sjuv", "sd_phi1",
                  #"N0f", "N0m", "N1f", "N1m", "Nadf", "Nadm","Xadf","Xadm",
                  "Sjuv18","lambda",#"Mlambda18",
@@ -154,6 +155,7 @@ write.csv2(sumdat,file=paste0(pathR,"HvdatM2C_05_r1.csv"))
 
 
 #Annual model, including summer counts of 2019 and 2021
+#Including demographic counts for subset 2020
 HV_M2CB23phi2 <- jags(data=bugs.data.HV4s, inits=inits, 
                       parameters.to.save=c("phi3", "phi2","phi1", "f", 
                                            "p1", "p2","ps", "Ntot", "Xtot", 
